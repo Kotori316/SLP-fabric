@@ -39,7 +39,7 @@ jobs:
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v3
         with:
-          name: Artifacts-${{ github.run_number }}
+          name: SLP-fabric-${{ github.run_number }}-${{ github.ref_name }}
           path: |
             build/libs/
             build/devlibs/
