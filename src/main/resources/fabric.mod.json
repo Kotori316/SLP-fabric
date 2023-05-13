@@ -1,10 +1,24 @@
 {
   "schemaVersion": 1,
+  "_comment": "TODO CHANGE IN 1.20 RELEASE",
   "id": "fabric-language-scala",
-  "name": "Fabric Language Scala",
-  "description": "Fabric language module for Scala.",
+  "name": "Scalable Cat's Force Fabric",
+  "description": "Scala library for fabric mods.",
   "version": "${version}",
+
+  "authors": [
+    "Kotori316"
+  ],
+  "contact": {
+    "sources": "https://github.com/Kotori316/SLP-fabric"
+  },
+
+  "license": "Apache License",
+  "icon": "assets/scalable-cats-force-fabric/slp-image.png",
+
+  "environment": "*",
   "languageAdapters": {
-    "scala": "net.fabricmc.language.scala.ScalaLanguageAdapter"
+    "kotori_scala": "com.kotori316.slp.ScalaLanguageAdapter",
+    "scala": "com.kotori316.slp.ScalaLanguageAdapter"
   }
 }

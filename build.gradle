@@ -1,100 +1,115 @@
 plugins {
-    id "java-library"
-    id "scala"
-    id "maven-publish"
-    id 'fabric-loom' version '0.10.30'
+    id 'scala'
+    id 'maven-publish'
+    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id "com.github.breadmoirai.github-release" version "2.4.1"
     id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "com.modrinth.minotaur" version "2.+"
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
+version = project.mod_version
 group = project.maven_group
 
-version = mod_version
-def ENV = System.getenv()
-version = version + "+scala." + project.scala_version + (ENV.GITHUB_ACTIONS ? "" : ".local")
+repositories {
+    maven {
+        name = "Azure"
+        url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
+        content {
+            it.includeVersion("org.typelevel", "cats-core_2.13", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-kernel_2.13", project.catsVersion)
+        }
+    }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	include(api("org.scala-lang:scala3-library_3:${project.scala_version}"))
-	// Depended on by scala3
-	include(api("org.scala-lang:scala-library:2.13.6"))
+    include(api(group: 'org.scala-lang', name: 'scala3-library_3', version: project.scala3Version))
+    include(api(group: 'org.scala-lang', name: 'scala-library', version: project.scala2Version))
+    include(api(group: "org.typelevel", name: "cats-core_2.13", version: project.catsVersion))
+    include(api(group: "org.typelevel", name: "cats-kernel_2.13", version: project.catsVersion))
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
 }
 
 java {
-	withSourcesJar()
+    withSourcesJar()
 }
 
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+tasks.named("wrapper", Wrapper) {
+    it.gradleVersion = "8.1.1"
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}
+
+// configure the maven publication
 publishing {
     publications {
-        maven(MavenPublication) {
-			from components.java
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = project.archives_base_name
+            pom {
+                name = project.archives_base_name
+                description = "SLP for Minecraft ${project.minecraft_version}, Fabric ${project.fabric_version}"
+                url = "https://github.com/Kotori316/SLP-fabric"
+                packaging = "jar"
+                withXml {
+                    List<String> notRequiredArtifacts = ["fabric-loader", "fabric-api"]
+                    def pomNode = asNode() as Node
+                    pomNode.dependencies.'*'.findAll() { Node node ->
+                        def valueList = node.value() as NodeList
+                        String artifactId = ((valueList.get(1) as Node).value() as NodeList).get(0)
+                        if (notRequiredArtifacts.stream().anyMatch { artifactId.contains(it) })
+                            node.parent().remove(node)
+                    }
+                }
+            }
         }
     }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-		repositories {
-			if (ENV.MAVEN_URL) {
-				maven {
-					url ENV.MAVEN_URL
-					credentials {
-						username ENV.MAVEN_USERNAME
-						password ENV.MAVEN_PASSWORD
-					}
-				}
-			}
-		}
     }
 }
 
 curseforge {
-	if (ENV.CURSEFORGE_API_KEY) {
-		apiKey = ENV.CURSEFORGE_API_KEY
-	}
-
+    apiKey = project.hasProperty("curseforge_additional-enchanted-miner_key") ? getProperty("curseforge_additional-enchanted-miner_key") : ""
     project {
-        id = '309275'
-        changelog = 'A changelog can be found at https://github.com/FabricMC/fabric-language-scala/commits/master'
+        id = '320926'
+        changelogType = 'markdown'
+        changelog = 'A changelog can be found at https://github.com/Kotori316/SLP-fabric/commits/scala3'
         releaseType = 'release'
-		addGameVersion '1.17.1'
-        addGameVersion '1.16.5'
-		addGameVersion '1.15.2'
-		addGameVersion '1.14.4'
-		addGameVersion "Fabric"
-
-        mainArtifact(file("${project.buildDir}/libs/${base.archivesBaseName}-${version}.jar")) {
-            displayName = "Fabric Language Scala $version"
-        }
+        addGameVersion("1.19.3")
+        addGameVersion("1.19.4")
+        mainArtifact(tasks.remapJar)
+        addArtifact jar
+        addArtifact srcJar
+        addArtifact shadowJar
     }
-
     options {
+        curseGradleOptions.debug = false // defaults to false
+        javaVersionAutoDetect = false
         forgeGradleIntegration = false
     }
 }
-
-// A task to ensure that the version being released has not already been released.
-task checkVersion {
-	doFirst {
-		def xml = new URL("https://maven.fabricmc.net/net/fabricmc/fabric-language-scala/maven-metadata.xml").text
-		def metadata = new XmlSlurper().parseText(xml)
-		def versions = metadata.versioning.versions.version*.text();
-		if (versions.contains(version)) {
-			throw new RuntimeException("${version} has already been released!")
-		}
-	}
-}
-
-publish.mustRunAfter checkVersion
-project.tasks.curseforge.mustRunAfter checkVersion
