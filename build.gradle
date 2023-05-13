@@ -96,7 +96,7 @@ publishing {
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        if (!Boolean.parseBoolean(System.getenv("CI")) || RELEASE_DEBUG) {
+        if (!Boolean.parseBoolean(System.getenv("CI")) || !RELEASE_DEBUG) {
             maven {
                 name = "AzureRepository"
                 url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
@@ -149,7 +149,9 @@ curseforge {
         addGameVersion("Fabric")
         addGameVersion("1.19.3")
         addGameVersion("1.19.4")
-        mainArtifact(tasks.remapJar)
+        mainArtifact(tasks.remapJar){
+            displayName = "${project.version}-fabric"
+        }
         addArtifact(tasks.jar)
         addArtifact(tasks.sourcesJar)
     }
@@ -178,6 +180,7 @@ modrinth {
     token.set((project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String)
     projectId = "scalable-cats-force"
     versionType = "release"
+    versionName = "${project.version}-fabric"
     uploadFile = tasks.remapJar
     getAdditionalFiles().set([
             tasks.jar,
