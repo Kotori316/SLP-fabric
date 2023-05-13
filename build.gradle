@@ -2,12 +2,12 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 plugins {
-    id 'scala'
-    id 'maven-publish'
-    id 'fabric-loom' version '1.2-SNAPSHOT'
-    id "com.github.breadmoirai.github-release" version "2.4.1"
-    id "com.matthewprenger.cursegradle" version "1.4.0"
-    id "com.modrinth.minotaur" version "2.+"
+    id("scala")
+    id("maven-publish")
+    id("fabric-loom").version("1.2-SNAPSHOT")
+    id("com.github.breadmoirai.github-release").version("2.4.1")
+    id("com.matthewprenger.cursegradle").version("1.4.0")
+    id("com.modrinth.minotaur").version("2.+")
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -34,8 +34,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    include(api(group: 'org.scala-lang', name: 'scala3-library_3', version: project.scala3Version))
-    include(api(group: 'org.scala-lang', name: 'scala-library', version: project.scala2Version))
+    include(api(group: "org.scala-lang", name: "scala3-library_3", version: project.scala3Version))
+    include(api(group: "org.scala-lang", name: "scala-library", version: project.scala2Version))
     include(api(group: "org.typelevel", name: "cats-core_2.13", version: project.catsVersion))
     include(api(group: "org.typelevel", name: "cats-kernel_2.13", version: project.catsVersion))
 }
@@ -81,7 +81,7 @@ publishing {
                 withXml {
                     List<String> notRequiredArtifacts = ["fabric-loader", "fabric-api"]
                     def pomNode = asNode() as Node
-                    pomNode.dependencies.'*'.findAll() { Node node ->
+                    pomNode.dependencies."*".findAll() { Node node ->
                         def valueList = node.value() as NodeList
                         String artifactId = ((valueList.get(1) as Node).value() as NodeList).get(0)
                         if (notRequiredArtifacts.stream().anyMatch { artifactId.contains(it) })
@@ -106,7 +106,8 @@ publishing {
 }
 
 String createChangelog() {
-    return """Scalable Cat's Force Fabric
+    return """\
+Scalable Cat's Force Fabric
 
 Provides scala language adapter to Fabric.
 
@@ -123,7 +124,7 @@ Build dependencies:
 
 final boolean RELEASE_DEBUG = true
 
-tasks.register('copyToDrive', Copy) {
+tasks.register("copyToDrive", Copy) {
     dependsOn("build")
     description = "Copy jar files to directory specified in environmental value of `drive_path`"
     def PATH_NAME = "drive_path"
@@ -139,11 +140,11 @@ tasks.register('copyToDrive', Copy) {
 curseforge {
     apiKey = project.findProperty("curseforge_additional-enchanted-miner_key") ?: ""
     project {
-        id = '320926'
-        changelogType = 'markdown'
+        id = "320926"
+        changelogType = "markdown"
         changelog = project.createChangelog()
-        releaseType = 'release'
-        addGameVersion('Fabric')
+        releaseType = "release"
+        addGameVersion("Fabric")
         addGameVersion("1.19.3")
         addGameVersion("1.19.4")
         mainArtifact(tasks.remapJar)
@@ -158,7 +159,7 @@ curseforge {
 }
 
 githubRelease {
-    repo.set('SLP-fabric')
+    repo.set("SLP-fabric")
     token = project.findProperty("githubToken") ?: System.getenv("REPO_TOKEN") ?: ""
     targetCommitish.set(project.branch as String)
     prerelease.set(project.version.toString().contains("SNAPSHOT"))
