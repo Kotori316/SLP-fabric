@@ -138,7 +138,7 @@ tasks.register("copyToDrive", Copy) {
 }
 
 curseforge {
-    apiKey = project.findProperty("curseforge_additional-enchanted-miner_key") ?: ""
+    apiKey = project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSEFORGE_API_KEY") ?: ""
     project {
         id = "320926"
         changelogType = "markdown"
