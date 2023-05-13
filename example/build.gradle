@@ -1,0 +1,66 @@
+plugins {
+    id("scala")
+    id("fabric-loom").version("1.2-SNAPSHOT")
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+archivesBaseName = "slp-example"
+version = "1.0"
+group = "com.kotori316"
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "Azure"
+        url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
+        content {
+            it.includeVersion("org.typelevel", "cats-core_2.13", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-kernel_2.13", project.catsVersion)
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    implementation(group: 'org.scala-lang', name: 'scala-library', version: project.scala2Version)
+    implementation(group: "org.typelevel", name: "cats-core_2.13", version: project.catsVersion)
+    implementation(group: "org.typelevel", name: "cats-kernel_2.13", version: project.catsVersion)
+
+    modImplementation(group: "com.kotori316", name: "scalable-cats-force-fabric", version: project.slp_version, classifier: "dev")
+}
+
+loom {
+    runs {
+        gameTest {
+            name "GameTest"
+            server()
+            vmArg "-ea"
+            //noinspection SpellCheckingInspection
+            vmArg "-Dfabric-api.gametest"
+            //noinspection SpellCheckingInspection
+            vmArg "-Dfabric-api.gametest.report-file=run/test-results/test/game_test.xml"
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.named("wrapper", Wrapper) {
+    it.gradleVersion = "8.1.1"
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}
