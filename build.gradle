@@ -66,6 +66,8 @@ tasks.withType(GenerateModuleMetadata).configureEach {
     enabled = false
 }
 
+final boolean RELEASE_DEBUG = true
+
 // configure the maven publication
 publishing {
     publications {
@@ -76,7 +78,7 @@ publishing {
             pom {
                 name = project.archives_base_name
                 description = "SLP for Minecraft ${project.minecraft_version}, Fabric ${project.fabric_version}"
-                url = "https://github.com/Kotori316/SLP-fabric"
+                url = project.url
                 packaging = "jar"
                 withXml {
                     List<String> notRequiredArtifacts = ["fabric-loader", "fabric-api"]
@@ -94,12 +96,14 @@ publishing {
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        maven {
-            name = "AzureRepository"
-            url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
-            credentials {
-                username = project.findProperty("azureUserName") ?: System.getenv("AZURE_USER_NAME") ?: ""
-                password = project.findProperty("azureToken") ?: System.getenv("AZURE_TOKEN") ?: "TOKEN"
+        if (!Boolean.parseBoolean(System.getenv("CI")) || RELEASE_DEBUG) {
+            maven {
+                name = "AzureRepository"
+                url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
+                credentials {
+                    username = project.findProperty("azureUserName") ?: System.getenv("AZURE_USER_NAME") ?: ""
+                    password = project.findProperty("azureToken") ?: System.getenv("AZURE_TOKEN") ?: "TOKEN"
+                }
             }
         }
     }
@@ -121,8 +125,6 @@ Build dependencies:
 * Minecraft ${project.minecraft_version}
 """
 }
-
-final boolean RELEASE_DEBUG = true
 
 tasks.register("copyToDrive", Copy) {
     dependsOn("build")
