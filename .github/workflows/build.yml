@@ -31,7 +31,10 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build publishToMavenLocal
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build publishToMavenLocal
+          generate-job-sum: false
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v3
@@ -45,5 +48,8 @@ jobs:
         working-directory: ./example
         run: chmod +x ./gradlew
       - name: Example Test
-        working-directory: ./example
-        run: ./gradlew runGameTest
+        uses: gradle/gradle-build-action@v2
+        with:
+          build-root-dire: ./example
+          arguments: runGameTest
+          generate-job-sum: false
