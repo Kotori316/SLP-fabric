@@ -111,18 +111,23 @@ publishing {
 
 String createChangelog() {
     return """\
-Scalable Cat's Force Fabric
+## Scalable Cat's Force Fabric
 
 Provides scala language adapter to Fabric.
 
-Build dependencies:
-* Scala ${project.scala2Version}
-* Scala3 ${project.scala3Version}
-* Cats Kernel ${project.catsVersion}
-* Cats Core ${project.catsVersion}
-* Fabric Loader ${project.loader_version}
-* Fabric API ${project.fabric_version}
-* Minecraft ${project.minecraft_version}
+### Build dependencies:
+
+- Scala ${project.scala2Version}
+- Scala3 ${project.scala3Version}
+- Cats Kernel ${project.catsVersion}
+- Cats Core ${project.catsVersion}
+- Fabric Loader ${project.loader_version}
+- Fabric API ${project.fabric_version}
+- Minecraft ${project.minecraft_version}
+
+### Repositry
+
+${project.url}/tree/${project.branch}
 """
 }
 
