@@ -34,7 +34,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build publishToMavenLocal
-          generate-job-sum: false
+          generate-job-summary: false
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v3
@@ -50,6 +50,6 @@ jobs:
       - name: Example Test
         uses: gradle/gradle-build-action@v2
         with:
-          build-root-dire: ./example
+          build-root-directory: ./example
           arguments: runGameTest
-          generate-job-sum: false
+          generate-job-summary: false
