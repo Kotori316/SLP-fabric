@@ -16,6 +16,7 @@ dependencies {
     implementation(group: "org.typelevel", name: "cats-core_2.13", version: project.catsVersion)
     implementation(group: "org.typelevel", name: "cats-kernel_2.13", version: project.catsVersion)
     
+    // If you write entrypoint in Scala. If entrypoint is Java, you can use default(fabric) entrypoint loader.
     modImplementation("com.kotori316:scalable-cats-force-fabric:1.0.0:dev")
 }
 
@@ -33,6 +34,7 @@ repositories {
 }
 ```
 
+(If you want to write entrypoint in scala)
 Specify your entrypoint in your `fabric.mod.json` like so:
 
 ```json

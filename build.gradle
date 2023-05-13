@@ -1,3 +1,6 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+
 plugins {
     id 'scala'
     id 'maven-publish'
@@ -68,6 +71,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact(tasks.jar)
             artifactId = project.archives_base_name
             pom {
                 name = project.archives_base_name
@@ -90,26 +94,94 @@ publishing {
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
+        maven {
+            name = "AzureRepository"
+            url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
+            credentials {
+                username = project.findProperty("azureUserName") ?: System.getenv("AZURE_USER_NAME") ?: ""
+                password = project.findProperty("azureToken") ?: System.getenv("AZURE_TOKEN") ?: "TOKEN"
+            }
+        }
+    }
+}
+
+String createChangelog() {
+    return """Scalable Cat's Force Fabric
+
+Provides scala language adapter to Fabric.
+
+Build dependencies:
+* Scala ${project.scala2Version}
+* Scala3 ${project.scala3Version}
+* Cats Kernel ${project.catsVersion}
+* Cats Core ${project.catsVersion}
+* Fabric Loader ${project.loader_version}
+* Fabric API ${project.fabric_version}
+* Minecraft ${project.minecraft_version}
+"""
+}
+
+final boolean RELEASE_DEBUG = true
+
+tasks.register('copyToDrive', Copy) {
+    dependsOn("build")
+    description = "Copy jar files to directory specified in environmental value of `drive_path`"
+    def PATH_NAME = "drive_path"
+    from(tasks.remapJar.getArchiveFile(), tasks.jar.getArchiveFile(), tasks.sourcesJar.getArchiveFile())
+    into(file(java.util.Optional.ofNullable(System.getenv(PATH_NAME)).orElse(".")))
+    onlyIf {
+        System.getenv(PATH_NAME) != null &&
+                Files.exists(Paths.get(System.getenv(PATH_NAME))) &&
+                !RELEASE_DEBUG
     }
 }
 
 curseforge {
-    apiKey = project.hasProperty("curseforge_additional-enchanted-miner_key") ? getProperty("curseforge_additional-enchanted-miner_key") : ""
+    apiKey = project.findProperty("curseforge_additional-enchanted-miner_key") ?: ""
     project {
         id = '320926'
         changelogType = 'markdown'
-        changelog = 'A changelog can be found at https://github.com/Kotori316/SLP-fabric/commits/scala3'
+        changelog = project.createChangelog()
         releaseType = 'release'
+        addGameVersion('Fabric')
         addGameVersion("1.19.3")
         addGameVersion("1.19.4")
         mainArtifact(tasks.remapJar)
-        addArtifact jar
-        addArtifact srcJar
-        addArtifact shadowJar
+        addArtifact(tasks.jar)
+        addArtifact(tasks.sourcesJar)
     }
     options {
-        curseGradleOptions.debug = false // defaults to false
+        curseGradleOptions.debug = RELEASE_DEBUG // defaults to false
         javaVersionAutoDetect = false
         forgeGradleIntegration = false
     }
+}
+
+githubRelease {
+    repo.set('SLP-fabric')
+    token = project.findProperty("githubToken") ?: System.getenv("REPO_TOKEN") ?: ""
+    targetCommitish.set(project.branch as String)
+    prerelease.set(project.version.toString().contains("SNAPSHOT"))
+    body.set(project.createChangelog())
+    releaseAssets = files(
+            tasks.remapJar,
+            tasks.jar,
+            tasks.sourcesJar,
+    )
+    dryRun.set(RELEASE_DEBUG)
+}
+
+modrinth {
+    token.set((project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String)
+    projectId = "scalable-cats-force"
+    versionType = "release"
+    uploadFile = tasks.remapJar
+    getAdditionalFiles().set([
+            tasks.jar,
+            tasks.sourcesJar,
+    ])
+    getGameVersions().set([project.minecraft_version, "1.19.3"])
+    getLoaders().set(["fabric"])
+    changelog = project.createChangelog()
+    debugMode = RELEASE_DEBUG
 }
