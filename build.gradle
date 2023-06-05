@@ -22,8 +22,9 @@ repositories {
         name = "Azure"
         url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
         content {
-            it.includeVersion("org.typelevel", "cats-core_2.13", project.catsVersion)
-            it.includeVersion("org.typelevel", "cats-kernel_2.13", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-free_3", project.catsVersion)
         }
     }
 }
@@ -36,8 +37,9 @@ dependencies {
 
     include(api(group: "org.scala-lang", name: "scala3-library_3", version: project.scala3Version))
     include(api(group: "org.scala-lang", name: "scala-library", version: project.scala2Version))
-    include(api(group: "org.typelevel", name: "cats-core_2.13", version: project.catsVersion))
-    include(api(group: "org.typelevel", name: "cats-kernel_2.13", version: project.catsVersion))
+    include(api(group: "org.typelevel", name: "cats-core_3", version: project.catsVersion))
+    include(api(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion))
+    include(api(group: "org.typelevel", name: "cats-free_3", version: project.catsVersion))
 }
 
 processResources {
@@ -121,6 +123,7 @@ Provides scala language adapter to Fabric.
 - Scala3 ${project.scala3Version}
 - Cats Kernel ${project.catsVersion}
 - Cats Core ${project.catsVersion}
+- Cats Free ${project.catsVersion}
 - Fabric Loader ${project.loader_version}
 - Fabric API ${project.fabric_version}
 - Minecraft ${project.minecraft_version}
@@ -152,8 +155,7 @@ curseforge {
         changelog = project.createChangelog()
         releaseType = "release"
         addGameVersion("Fabric")
-        addGameVersion("1.19.3")
-        addGameVersion("1.19.4")
+        addGameVersion(project.minecraft_version)
         mainArtifact(tasks.remapJar){
             displayName = "${project.version}-fabric"
         }
@@ -191,7 +193,7 @@ modrinth {
             tasks.jar,
             tasks.sourcesJar,
     ])
-    getGameVersions().set([project.minecraft_version, "1.19.3"])
+    getGameVersions().set([project.minecraft_version])
     getLoaders().set(["fabric"])
     changelog = project.createChangelog()
     debugMode = RELEASE_DEBUG

@@ -16,8 +16,9 @@ repositories {
         name = "Azure"
         url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
         content {
-            it.includeVersion("org.typelevel", "cats-core_2.13", project.catsVersion)
-            it.includeVersion("org.typelevel", "cats-kernel_2.13", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-free_3", project.catsVersion)
         }
     }
 }
@@ -28,9 +29,11 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    implementation(group: "org.scala-lang", name: "scala3-library_3", version: project.scala3Version)
     implementation(group: 'org.scala-lang', name: 'scala-library', version: project.scala2Version)
-    implementation(group: "org.typelevel", name: "cats-core_2.13", version: project.catsVersion)
-    implementation(group: "org.typelevel", name: "cats-kernel_2.13", version: project.catsVersion)
+    implementation(group: "org.typelevel", name: "cats-core_3", version: project.catsVersion)
+    implementation(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion)
+    implementation(group: "org.typelevel", name: "cats-free_3", version: project.catsVersion)
 
     modImplementation(group: "com.kotori316", name: "scalable-cats-force-fabric", version: project.slp_version, classifier: "dev")
 }
