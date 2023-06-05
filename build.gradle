@@ -155,7 +155,8 @@ curseforge {
         changelog = project.createChangelog()
         releaseType = "release"
         addGameVersion("Fabric")
-        addGameVersion(project.minecraft_version)
+        addGameVersion("1.20-Snapshot")
+        // addGameVersion(project.minecraft_version)
         mainArtifact(tasks.remapJar){
             displayName = "${project.version}-fabric"
         }
