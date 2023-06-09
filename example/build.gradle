@@ -16,6 +16,7 @@ repositories {
         name = "Azure"
         url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
         content {
+            it.includeVersion("com.kotori316", "scalable-cats-force-fabric", project.slp_version)
             it.includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
             it.includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
             it.includeVersion("org.typelevel", "cats-free_3", project.catsVersion)
