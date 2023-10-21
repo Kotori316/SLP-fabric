@@ -33,6 +33,10 @@
       },
       {
         "value": "com.kotori316.slp.example.ScalaInitial2"
+      },
+      {
+        "adapter": "kotori_scala",
+        "value": "com.kotori316.slp.example.ScalaInitial3"
       }
     ],
     "fabric-gametest": [
