@@ -1,10 +1,10 @@
 plugins {
     id("scala")
-    id("fabric-loom").version("1.3-SNAPSHOT")
+    id("fabric-loom").version("1.6-SNAPSHOT")
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 archivesBaseName = "slp-example"
 version = "1.0"
@@ -62,7 +62,7 @@ processResources {
 }
 
 tasks.named("wrapper", Wrapper) {
-    it.gradleVersion = "8.3"
+    it.gradleVersion = "8.7"
 }
 
 tasks.withType(GenerateModuleMetadata).configureEach {

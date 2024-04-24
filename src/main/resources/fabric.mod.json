@@ -19,7 +19,6 @@
 
   "environment": "*",
   "languageAdapters": {
-    "kotori_scala": "com.kotori316.slp.ScalaLanguageAdapter",
-    "scala": "com.kotori316.slp.ScalaLanguageAdapter"
+    "kotori_scala": "com.kotori316.slp.ScalaLanguageAdapter"
   }
 }
