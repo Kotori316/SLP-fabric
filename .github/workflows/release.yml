@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: Fabric-Deploy
     container:
-      image: eclipse-temurin:17
+      image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
     steps:
-      - uses: actions/checkout@v3
-      - uses: gradle/wrapper-validation-action@v1
+      - uses: actions/checkout@v4
+      - uses: gradle/actions/wrapper-validation@v3
       - run: chmod +x ./gradlew
       - name: Make release switch on
         run: sed -i -e 's/RELEASE_DEBUG = true/RELEASE_DEBUG = false/' build.gradle
