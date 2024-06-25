@@ -45,8 +45,8 @@ jobs:
             build/devlibs/
       - name: Example Test Executable
         if: ${{ runner.os != 'Windows' }}
-        working-directory: ./example
+        working-directory: ./examples
         run: chmod +x ./gradlew
       - name: Example Test
         run: ./gradlew runGameTest
-        working-directory: ./example
+        working-directory: ./examples
