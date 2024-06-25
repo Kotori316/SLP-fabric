@@ -7,12 +7,6 @@ plugins {
     id("com.modrinth.minotaur").version("2.+")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
@@ -52,6 +46,9 @@ processResources {
 
 java {
     withSourcesJar()
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
 }
 
 jar {
@@ -134,8 +131,6 @@ Provides scala language adapter to Fabric.
 - Cats Core ${project.catsVersion}
 - Cats Free ${project.catsVersion}
 - Fabric Loader ${project.loader_version}
-- Fabric API ${project.fabric_version}
-- Minecraft ${project.minecraft_version}
 
 ### Repositry
 

@@ -4,6 +4,8 @@ import net.fabricmc.loader.api.LanguageAdapter;
 import net.fabricmc.loader.api.LanguageAdapterException;
 import net.fabricmc.loader.api.ModContainer;
 
+import java.lang.reflect.Constructor;
+
 public final class ScalaLanguageAdapter implements LanguageAdapter {
     // private static final Logger LOGGER = LoggerFactory.getLogger(ScalaLanguageAdapter.class);
 
@@ -28,19 +30,19 @@ public final class ScalaLanguageAdapter implements LanguageAdapter {
             // Scala object
             // LOGGER.debug("({}) Detect object {}", mod, value);
             try {
-                var obj = getScalaObject(mod, value);
+                Object obj = getScalaObject(mod, value);
                 // LOGGER.debug("({}) Got object instance {}, interface={}", mod, obj, obj.getClass().getInterfaces());
                 return type.cast(obj);
             } catch (ReflectiveOperationException | ClassCastException e) {
-                throw new LanguageAdapterException("Error in getting scala object of %s from %s".formatted(type, value), e);
+                throw new LanguageAdapterException(String.format("Error in getting scala object of %s from %s", type, value), e);
             }
         } else {
             // LOGGER.debug("({}) Detect class {}", mod, value);
             // Check object
             try {
-                var clazz = Class.forName(value + "$", false, ScalaLanguageAdapter.class.getClassLoader());
+                Class<?> clazz = Class.forName(value + "$", false, ScalaLanguageAdapter.class.getClassLoader());
                 // LOGGER.debug("({}) Got object class {}", mod, clazz);
-                var obj = getScalaObject(mod, value + "$");
+                Object obj = getScalaObject(mod, value + "$");
                 // LOGGER.debug("({}) Got object instance {}, interface={}", mod, obj, obj.getClass().getInterfaces());
                 if (type.isInstance(obj)) {
                     // LOGGER.debug("({}) The object is implementing {}, return", mod, type);
@@ -52,21 +54,21 @@ public final class ScalaLanguageAdapter implements LanguageAdapter {
             }
 
             try {
-                var clazz = Class.forName(value, true, ScalaLanguageAdapter.class.getClassLoader());
+                Class<?> clazz = Class.forName(value, true, ScalaLanguageAdapter.class.getClassLoader());
                 // LOGGER.debug("({}) Call constructor of {}", mod, value);
-                var constructor = clazz.getDeclaredConstructor();
-                var clsObject = constructor.newInstance();
+                Constructor<?> constructor = clazz.getDeclaredConstructor();
+                Object clsObject = constructor.newInstance();
                 // LOGGER.debug("({}) Got class instance {}, interface={}", mod, clsObject, clsObject.getClass().getInterfaces());
                 return type.cast(clsObject);
             } catch (ReflectiveOperationException | ClassCastException e) {
-                throw new LanguageAdapterException("Error in constructing an instance of %s from %s".formatted(type, value), e);
+                throw new LanguageAdapterException(String.format("Error in constructing an instance of %s from %s", type, value), e);
             }
         }
     }
 
     private static Object getScalaObject(ModContainer mod, String value) throws ReflectiveOperationException, ClassCastException {
         // LOGGER.debug("({}) Try to get MODULE$ from {}", mod, value);
-        var clazz = Class.forName(value, true, ScalaLanguageAdapter.class.getClassLoader());
+        Class<?> clazz = Class.forName(value, true, ScalaLanguageAdapter.class.getClassLoader());
         return clazz.getField("MODULE$").get(null);
     }
 }
