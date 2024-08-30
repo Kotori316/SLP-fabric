@@ -1,0 +1,62 @@
+plugins {
+    id("scala")
+    id("fabric-loom").version("1.6-SNAPSHOT")
+}
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
+
+archivesBaseName = "slp-example"
+version = "1.0"
+group = "com.kotori316"
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "Azure"
+        url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
+        content {
+            it.includeVersion("com.kotori316", "scalable-cats-force-fabric", project.slp_version)
+            it.includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
+            it.includeVersion("org.typelevel", "cats-free_3", project.catsVersion)
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    implementation(group: "org.scala-lang", name: "scala3-library_3", version: project.scala3Version)
+    implementation(group: 'org.scala-lang', name: 'scala-library', version: project.scala2Version)
+    implementation(group: "org.typelevel", name: "cats-core_3", version: project.catsVersion)
+    implementation(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion)
+    implementation(group: "org.typelevel", name: "cats-free_3", version: project.catsVersion)
+
+    modImplementation(group: "com.kotori316", name: "scalable-cats-force-fabric", version: project.slp_version, classifier: "dev")
+}
+
+loom {
+    runs {
+        gameTest {
+            name "GameTest"
+            server()
+            vmArg "-ea"
+            //noinspection SpellCheckingInspection
+            vmArg "-Dfabric-api.gametest"
+            //noinspection SpellCheckingInspection
+            vmArg "-Dfabric-api.gametest.report-file=run/test-results/test/game_test.xml"
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}

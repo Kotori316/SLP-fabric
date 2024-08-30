@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "slp_example",
+  "version": "${version}",
+  "name": "SLP Example",
+  "description": "SLP Example",
+  "authors": [
+    "Kotori316"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Kotori316",
+    "sources": "https://github.com/Kotori316/SLP-fabric",
+    "issues": "https://github.com/Kotori316/SLP-fabric/issues"
+  },
+  "license": "All rights reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotori_scala",
+        "value": "com.kotori316.slp.example.Initial"
+      },
+      {
+        "adapter": "kotori_scala",
+        "value": "com.kotori316.slp.example.JavaInitial"
+      },
+      {
+        "adapter": "kotori_scala",
+        "value": "com.kotori316.slp.example.ScalaInitial"
+      },
+      {
+        "value": "com.kotori316.slp.example.JavaInitial2"
+      },
+      {
+        "value": "com.kotori316.slp.example.ScalaInitial2"
+      },
+      {
+        "adapter": "kotori_scala",
+        "value": "com.kotori316.slp.example.ScalaInitial3"
+      }
+    ],
+    "fabric-gametest": [
+      "com.kotori316.slp.example.DummyGameTest"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric": ">=0.103.0+1.21.1",
+    "minecraft": ">=1.21.1",
+    "kotori_scala": ">=1.0.0"
+  }
+}
