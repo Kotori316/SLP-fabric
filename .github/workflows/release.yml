@@ -10,7 +10,7 @@ jobs:
       image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
     steps:
       - uses: actions/checkout@v4
-      - uses: gradle/actions/wrapper-validation@v3
+      - uses: gradle/actions/wrapper-validation@v4
       - run: chmod +x ./gradlew
       - name: Make release switch on
         run: sed -i -e 's/RELEASE_DEBUG = true/RELEASE_DEBUG = false/' build.gradle
