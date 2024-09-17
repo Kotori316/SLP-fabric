@@ -12,6 +12,7 @@ cats = "2.10.1-kotori"
 
 plugin_fabric_loom = "1.7.4"
 plugin_publish_all = "0.+"
+plugin_cf = "3.1"
 
 [libraries]
 minecraft_main = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_main" }
@@ -32,5 +33,6 @@ scala = ["scala2", "scala3"]
 cats = ["cats_core", "cats_kernel", "cats_free"]
 
 [plugins]
-loom = {id = "fabric-loom", version.ref = "plugin_fabric_loom"}
+loom = { id = "fabric-loom", version.ref = "plugin_fabric_loom" }
 publish-all = { id = "me.modmuss50.mod-publish-plugin", version.ref = "plugin_publish_all" }
+cf = { id = "com.kotori316.plugin.cf", version.ref = "plugin_cf" }

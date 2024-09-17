@@ -39,7 +39,7 @@ jobs:
         with:
           add-job-summary: 'on-failure'
       - name: Build
-        run: ./gradlew build publishToMavenLocal
+        run: ./gradlew build publishToMavenLocal checkReleaseVersion
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '21' && github.event_name == 'push' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v4

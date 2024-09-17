@@ -12,7 +12,7 @@ jobs:
     # See https://github.com/Kotori316/common-script/blob/main/.github/workflows/release-prod-gradle.yaml
     uses: 'Kotori316/common-script/.github/workflows/release-prod-gradle.yaml@main'
     with:
-      release_command: 'build publishMods publish --stacktrace --no-daemon'
+      release_command: 'checkReleaseVersion build publishMods publish registerVersion --stacktrace --no-daemon'
       enable_signature_check: false
       java_version: '21'
       use_attestation: true

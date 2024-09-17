@@ -1,8 +1,12 @@
+import com.kotori316.plugin.cf.CallVersionCheckFunctionTask
+import com.kotori316.plugin.cf.CallVersionFunctionTask
+
 plugins {
     id("scala")
     id("maven-publish")
     alias(libs.plugins.loom)
     alias(libs.plugins.publish.all)
+    alias(libs.plugins.cf)
 }
 
 archivesBaseName = project.archives_base_name
@@ -171,5 +175,25 @@ publishMods {
         repository = "Kotori316/SLP-fabric"
         commitish = project.property("branch") as String
         tagName = "v${project.version}"
+        displayName = "v${project.version}"
     }
+}
+
+tasks.register("registerVersion", CallVersionFunctionTask.class) {
+    functionEndpoint = CallVersionFunctionTask.readVersionFunctionEndpoint(project)
+    gameVersion = libs.versions.minecraft.main.get()
+    platform = "fabric"
+    platformVersion = libs.versions.fabric.loader.get()
+    modName = "ScalableCatsForce-Fabric"
+    changelog = createChangelog()
+    homepage = "https://modrinth.com/mod/scalable-cats-force"
+    isDryRun = RELEASE_DEBUG
+}
+
+tasks.register("checkReleaseVersion", CallVersionCheckFunctionTask.class) {
+    gameVersion = libs.versions.minecraft.main.get()
+    platform = "fabric"
+    modName = "ScalableCatsForce-Fabric"
+    version = project.version.toString()
+    failIfExists = !RELEASE_DEBUG
 }
