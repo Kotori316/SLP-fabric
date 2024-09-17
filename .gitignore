@@ -9,7 +9,7 @@
 !/.gitattributes
 !/.gitignore
 !/build.gradle
-!/settings.gradle
+!/settings.gradle.kts
 !/gradle.properties
 !/gradlew
 !/gradlew.bat
