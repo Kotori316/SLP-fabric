@@ -10,7 +10,7 @@ scala3 = "3.5.0"
 scala2 = "2.13.14"
 cats = "2.10.1-kotori"
 
-gradle_fabric = "1.6-SNAPSHOT"
+gradle_fabric = "1.7.4"
 
 [libraries]
 minecraft_main = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_main" }
