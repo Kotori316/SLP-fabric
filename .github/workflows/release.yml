@@ -3,21 +3,18 @@ name: Release
 on: [ workflow_dispatch ] # Manual trigger
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: Fabric-Deploy
-    container:
-      image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
-    steps:
-      - uses: actions/checkout@v4
-      - uses: gradle/actions/wrapper-validation@v4
-      - run: chmod +x ./gradlew
-      - name: Make release switch on
-        run: sed -i -e 's/RELEASE_DEBUG = true/RELEASE_DEBUG = false/' build.gradle
-      - run: ./gradlew build curseforge modrinth githubRelease publish --stacktrace
-        env:
-          AZURE_USER_NAME: Kotori316
-          AZURE_TOKEN: ${{ secrets.AZURE_TOKEN }}
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          REPO_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+  release:
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+      attestations: write
+    # See https://github.com/Kotori316/common-script/blob/main/.github/workflows/release-prod-gradle.yaml
+    uses: 'Kotori316/common-script/.github/workflows/release-prod-gradle.yaml@main'
+    with:
+      release_command: 'build publishMods publish --stacktrace --no-daemon'
+      enable_signature_check: false
+      java_version: '21'
+      use_attestation: true
+      use_gradle_cache: true
+    secrets: inherit

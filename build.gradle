@@ -2,9 +2,7 @@ plugins {
     id("scala")
     id("maven-publish")
     alias(libs.plugins.loom)
-    id("com.github.breadmoirai.github-release").version("2.5.2")
-    id("com.matthewprenger.cursegradle").version("1.4.0")
-    id("com.modrinth.minotaur").version("2.+")
+    alias(libs.plugins.publish.all)
 }
 
 archivesBaseName = project.archives_base_name
@@ -65,7 +63,7 @@ tasks.withType(GenerateModuleMetadata).configureEach {
     enabled = false
 }
 
-final boolean RELEASE_DEBUG = true
+final boolean RELEASE_DEBUG = (System.getenv("RELEASE_DEBUG") ?: "true").toBoolean()
 
 // configure the maven publication
 publishing {
@@ -138,54 +136,40 @@ ${project.url}/tree/${project.branch}
 """
 }
 
-curseforge {
-    apiKey = project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSEFORGE_API_KEY") ?: ""
-    project {
-        id = "320926"
-        changelogType = "markdown"
-        changelog = project.createChangelog()
-        releaseType = "release"
-        addGameVersion("Fabric")
-        addGameVersion(libs.versions.minecraft.main.get())
-        mainArtifact(tasks.remapJar) {
-            displayName = "${project.version}-fabric"
-        }
-        addArtifact(tasks.jar)
-        addArtifact(tasks.sourcesJar)
-    }
-    options {
-        curseGradleOptions.debug = RELEASE_DEBUG // defaults to false
-        javaVersionAutoDetect = false
-        forgeGradleIntegration = false
-    }
-}
-
-githubRelease {
-    repo.set("SLP-fabric")
-    token = project.findProperty("githubToken") ?: System.getenv("REPO_TOKEN") ?: ""
-    targetCommitish.set(project.branch as String)
-    prerelease.set(project.version.toString().contains("SNAPSHOT"))
-    body.set(project.createChangelog())
-    releaseAssets = files(
-            tasks.remapJar,
-            tasks.jar,
-            tasks.sourcesJar,
+publishMods {
+    dryRun = RELEASE_DEBUG
+    type = STABLE
+    file = provider { tasks.remapJar }.flatMap { it.archiveFile }
+    additionalFiles = files(
+            provider { tasks.jar }.flatMap { it.archiveFile },
+            provider { tasks.sourcesJar }.flatMap { it.archiveFile },
     )
-    dryRun.set(RELEASE_DEBUG)
-}
+    modLoaders = ["fabric"]
+    displayName = "${project.version}-fabric"
+    changelog = createChangelog()
 
-modrinth {
-    token.set((project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String)
-    projectId = "scalable-cats-force"
-    versionType = "release"
-    versionName = "${project.version}-fabric"
-    uploadFile = tasks.remapJar
-    getAdditionalFiles().set([
-            tasks.jar,
-            tasks.sourcesJar,
-    ])
-    getGameVersions().set([libs.versions.minecraft.main.get()])
-    getLoaders().set(["fabric"])
-    changelog = project.createChangelog()
-    debugMode = RELEASE_DEBUG
+    def endVersion = "1.21.1"
+    curseforge {
+        accessToken = (project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSEFORGE_API_KEY") ?: "") as String
+        projectId = "320926"
+        minecraftVersionRange {
+            start = libs.versions.minecraft.main.get()
+            end = endVersion
+        }
+    }
+    modrinth {
+        accessToken = (project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String
+        projectId = "scalable-cats-force"
+        minecraftVersionRange {
+            start = libs.versions.minecraft.main.get()
+            end = endVersion
+            includeSnapshots = false
+        }
+    }
+    github {
+        accessToken = (project.findProperty("githubToken") ?: System.getenv("REPO_TOKEN") ?: "") as String
+        repository = "Kotori316/SLP-fabric"
+        commitish = project.property("branch") as String
+        tagName = "v${project.version}"
+    }
 }
