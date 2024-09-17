@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "slp_example",
-  "version": "${version}",
+  "version": "21.1.0",
   "name": "SLP Example",
   "description": "SLP Example",
   "authors": [

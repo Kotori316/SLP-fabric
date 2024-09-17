@@ -13,13 +13,13 @@ group = "com.kotori316"
 repositories {
     mavenLocal()
     maven {
-        name = "Azure"
-        url = uri("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1")
+        name = "Main"
+        url = uri("https://maven.kotori316.com")
         content {
-            it.includeVersion("com.kotori316", "scalable-cats-force-fabric", project.slp_version)
-            it.includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
-            it.includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
-            it.includeVersion("org.typelevel", "cats-free_3", project.catsVersion)
+            includeVersion("com.kotori316", "scalable-cats-force-fabric", libs.versions.slp.fabric.get())
+            includeVersion("org.typelevel", "cats-core_3", libs.versions.scala3.get())
+            includeVersion("org.typelevel", "cats-kernel_3", libs.versions.scala3.get())
+            includeVersion("org.typelevel", "cats-free_3", libs.versions.scala3.get())
         }
     }
 }
@@ -49,13 +49,5 @@ loom {
             //noinspection SpellCheckingInspection
             vmArg "-Dfabric-api.gametest.report-file=run/test-results/test/game_test.xml"
         }
-    }
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
     }
 }
