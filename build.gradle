@@ -24,16 +24,16 @@ repositories {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${project.minecraft_version}")
-    mappings loom.officialMojangMappings()
-    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+    minecraft(libs.minecraft.main)
+    mappings (loom.officialMojangMappings())
+    modImplementation(libs.fabric.loader)
     // modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    include(api(group: "org.scala-lang", name: "scala3-library_3", version: project.scala3Version))
-    include(api(group: "org.scala-lang", name: "scala-library", version: project.scala2Version))
-    include(api(group: "org.typelevel", name: "cats-core_3", version: project.catsVersion))
-    include(api(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion))
-    include(api(group: "org.typelevel", name: "cats-free_3", version: project.catsVersion))
+    include(api(group: "org.scala-lang", name: "scala3-library_3", version: libs.versions.scala3.get()))
+    include(api(group: "org.scala-lang", name: "scala-library", version: libs.versions.scala2.get()))
+    include(api(group: "org.typelevel", name: "cats-core_3", version: libs.versions.cats.get()))
+    include(api(group: "org.typelevel", name: "cats-kernel_3", version: libs.versions.cats.get()))
+    include(api(group: "org.typelevel", name: "cats-free_3", version: libs.versions.cats.get()))
 }
 
 processResources {

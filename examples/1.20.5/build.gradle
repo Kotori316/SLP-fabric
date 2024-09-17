@@ -1,6 +1,6 @@
 plugins {
     id("scala")
-    id("fabric-loom").version("1.6-SNAPSHOT")
+   alias(libs.plugins.loom)
 }
 
 sourceCompatibility = JavaVersion.VERSION_21
@@ -25,18 +25,17 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft(libs.minecraft.v1205)
+    mappings(loom.officialMojangMappings())
+    modImplementation(libs.fabric.loader)
+    modImplementation(libs.fabric.api.v1205)
 
-    implementation(group: "org.scala-lang", name: "scala3-library_3", version: project.scala3Version)
-    implementation(group: 'org.scala-lang', name: 'scala-library', version: project.scala2Version)
-    implementation(group: "org.typelevel", name: "cats-core_3", version: project.catsVersion)
-    implementation(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion)
-    implementation(group: "org.typelevel", name: "cats-free_3", version: project.catsVersion)
+    implementation(libs.bundles.scala)
+    implementation(libs.bundles.cats)
 
-    modImplementation(group: "com.kotori316", name: "scalable-cats-force-fabric", version: project.slp_version, classifier: "dev")
+    modImplementation(variantOf(libs.slp.fabric) {
+        classifier("dev")
+    })
 }
 
 loom {
