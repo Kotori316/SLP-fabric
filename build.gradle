@@ -150,7 +150,7 @@ publishMods {
 
     def endVersion = "1.21.1"
     curseforge {
-        accessToken = (project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSEFORGE_API_KEY") ?: "") as String
+        accessToken = (project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSE_TOKEN") ?: "") as String
         projectId = "320926"
         minecraftVersionRange {
             start = libs.versions.minecraft.main.get()
@@ -159,7 +159,7 @@ publishMods {
     }
     modrinth {
         accessToken = (project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String
-        projectId = "scalable-cats-force"
+        projectId = "zr0QMQMo"
         minecraftVersionRange {
             start = libs.versions.minecraft.main.get()
             end = endVersion
