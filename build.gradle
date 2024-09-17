@@ -1,7 +1,7 @@
 plugins {
     id("scala")
     id("maven-publish")
-    id("fabric-loom").version("1.7.4")
+    alias(libs.plugins.loom)
     id("com.github.breadmoirai.github-release").version("2.5.2")
     id("com.matthewprenger.cursegradle").version("1.4.0")
     id("com.modrinth.minotaur").version("2.+")
@@ -16,16 +16,16 @@ repositories {
         name = "Main"
         url = uri("https://maven.kotori316.com")
         content {
-            includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
-            includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
-            includeVersion("org.typelevel", "cats-free_3", project.catsVersion)
+            includeVersion("org.typelevel", "cats-core_3", libs.versions.scala3.get())
+            includeVersion("org.typelevel", "cats-kernel_3", libs.versions.scala3.get())
+            includeVersion("org.typelevel", "cats-free_3", libs.versions.scala3.get())
         }
     }
 }
 
 dependencies {
     minecraft(libs.minecraft.main)
-    mappings (loom.officialMojangMappings())
+    mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
     // modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
@@ -125,12 +125,12 @@ Provides scala language adapter to Fabric.
 
 ### Build dependencies:
 
-- Scala ${project.scala2Version}
-- Scala3 ${project.scala3Version}
-- Cats Kernel ${project.catsVersion}
-- Cats Core ${project.catsVersion}
-- Cats Free ${project.catsVersion}
-- Fabric Loader ${project.loader_version}
+- Scala ${libs.versions.scala2.get()}
+- Scala3 ${libs.versions.scala3.get()}
+- Cats Kernel ${libs.versions.cats.get()}
+- Cats Core ${libs.versions.cats.get()}
+- Cats Free ${libs.versions.cats.get()}
+- Fabric Loader ${libs.versions.fabric.loader.get()}
 
 ### Repositry
 
@@ -146,7 +146,7 @@ curseforge {
         changelog = project.createChangelog()
         releaseType = "release"
         addGameVersion("Fabric")
-        addGameVersion(project.minecraft_version)
+        addGameVersion(libs.versions.minecraft.main.get())
         mainArtifact(tasks.remapJar) {
             displayName = "${project.version}-fabric"
         }
@@ -184,7 +184,7 @@ modrinth {
             tasks.jar,
             tasks.sourcesJar,
     ])
-    getGameVersions().set([project.minecraft_version])
+    getGameVersions().set([libs.versions.minecraft.main.get()])
     getLoaders().set(["fabric"])
     changelog = project.createChangelog()
     debugMode = RELEASE_DEBUG
