@@ -3,5 +3,28 @@
   "extends": [
     "github>Kotori316/common-script:renovate-default",
     ":rebaseStalePrs"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "gradle"
+      ],
+      "matchPackagePatterns": [
+        "org.typelevel",
+        "org.scala-lang"
+      ],
+      "enabled": true
+    },
+    {
+      "matchManagers": [
+        "gradle"
+      ],
+      "matchPackagePatterns": [
+        "^org.typelevel*"
+      ],
+      "registryUrls": [
+        "https://maven.kotori316.com"
+      ]
+    }
   ]
 }
