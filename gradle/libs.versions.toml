@@ -8,7 +8,7 @@ fabric_v1211 = "0.104.0+1.21.1"
 slp_fabric = "3.1.2"
 scala3 = "3.5.1"
 scala2 = "2.13.14"
-cats = "2.10.1-kotori"
+cats = "2.12.1-kotori"
 
 plugin_fabric_loom = "1.7.4"
 plugin_publish_all = "0.+"
