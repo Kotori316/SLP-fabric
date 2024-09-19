@@ -20,7 +20,18 @@
         "gradle"
       ],
       "matchPackagePatterns": [
-        "^org.typelevel*"
+        "org.scala-lang"
+      ],
+      "registryUrls": [
+        "https://repo.maven.apache.org/maven2"
+      ]
+    },
+    {
+      "matchManagers": [
+        "gradle"
+      ],
+      "matchPackagePatterns": [
+        "^org.typelevel:cats-*"
       ],
       "registryUrls": [
         "https://maven.kotori316.com"
