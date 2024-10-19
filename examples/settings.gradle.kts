@@ -20,3 +20,4 @@ dependencyResolutionManagement {
 rootProject.name = "SLP-fabric-examples"
 include("1.20.5")
 include("1.21.1")
+include("1.21.2")

@@ -2,9 +2,11 @@
 minecraft_main = "1.16.5"
 minecraft_v1205 = "1.20.5"
 minecraft_v1211 = "1.21.1"
+minecraft_v1212 = "1.21.2-pre4"
 fabric_loader = "0.16.7"
 fabric_v1205 = "0.97.8+1.20.5"
 fabric_v1211 = "0.106.0+1.21.1"
+fabric_v1212 = "0.106.0+1.21.2"
 slp_fabric = "3.+"
 scala3 = "3.5.1"
 scala2 = "2.13.15"
@@ -18,9 +20,11 @@ plugin_cf = "3.3"
 minecraft_main = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_main" }
 minecraft_v1205 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1205" }
 minecraft_v1211 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1211" }
+minecraft_v1212 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1212" }
 fabric_loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric_loader" }
 fabric_api_v1205 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1205" }
 fabric_api_v1211 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1211" }
+fabric_api_v1212 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1212" }
 slp_fabric = { group = "com.kotori316", name = "scalable-cats-force-fabric", version.ref = "slp_fabric" }
 scala3 = { group = "org.scala-lang", name = "scala3-library_3", version.ref = "scala3" }
 scala2 = { group = "org.scala-lang", name = "scala-library", version.ref = "scala2" }
