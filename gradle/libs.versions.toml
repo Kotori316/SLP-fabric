@@ -8,7 +8,7 @@ fabric_v1205 = "0.97.8+1.20.5"
 fabric_v1211 = "0.106.0+1.21.1"
 fabric_v1212 = "0.106.0+1.21.2"
 slp_fabric = "3.+"
-scala3 = "3.6.0"
+scala3 = "3.6.1"
 scala2 = "2.13.15"
 cats = "2.12.1-kotori"
 
