@@ -4,6 +4,7 @@
     "github>Kotori316/common-script:renovate-default",
     ":rebaseStalePrs"
   ],
+  "forkProcessing": "enabled",
   "packageRules": [
     {
       "matchManagers": [
