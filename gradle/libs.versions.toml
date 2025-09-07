@@ -19,7 +19,7 @@ scala2 = "2.13.16"
 cats = "2.13.0-kotori"
 
 plugin_fabric_loom = "1.11.8"
-plugin_publish_all = "0.+"
+plugin_publish_all = "1.+"
 plugin_cf = "3.4"
 
 [libraries]
