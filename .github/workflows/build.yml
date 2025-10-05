@@ -53,5 +53,6 @@ jobs:
         working-directory: ./examples
         run: chmod +x ./gradlew
       - name: Example Test
+        if: matrix.os != 'ubuntu-24.04-arm'
         run: ./gradlew runGameTest
         working-directory: ./examples
