@@ -62,7 +62,7 @@ jar {
 }
 
 tasks.named("wrapper", Wrapper) {
-    it.gradleVersion = "8.14.3"
+    it.gradleVersion = "9.1.0"
 }
 
 tasks.withType(GenerateModuleMetadata).configureEach {
