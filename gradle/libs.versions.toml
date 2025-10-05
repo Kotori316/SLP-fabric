@@ -6,6 +6,7 @@ minecraft_v1212 = "1.21.3"
 minecraft_v1214 = "1.21.4"
 minecraft_v1215 = "1.21.5"
 minecraft_v1216 = "1.21.6"
+minecraft_v1218 = "1.21.8"
 fabric_loader = "0.17.2"
 fabric_v1205 = "0.97.8+1.20.5"
 fabric_v1211 = "0.116.6+1.21.1"
@@ -13,6 +14,7 @@ fabric_v1212 = "0.114.1+1.21.3"
 fabric_v1214 = "0.119.4+1.21.4"
 fabric_v1215 = "0.128.2+1.21.5"
 fabric_v1216 = "0.128.2+1.21.6"
+fabric_v1218 = "0.131.0+1.21.8"
 slp_fabric = "3.+"
 scala3 = "3.7.1"
 scala2 = "2.13.16"
@@ -30,6 +32,7 @@ minecraft_v1212 = { group = "com.mojang", name = "minecraft", version.ref = "min
 minecraft_v1214 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1214" }
 minecraft_v1215 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1215" }
 minecraft_v1216 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1216" }
+minecraft_v1218 = { group = "com.mojang", name = "minecraft", version.ref = "minecraft_v1218" }
 fabric_loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric_loader" }
 fabric_api_v1205 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1205" }
 fabric_api_v1211 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1211" }
@@ -37,6 +40,7 @@ fabric_api_v1212 = { group = "net.fabricmc.fabric-api", name = "fabric-api", ver
 fabric_api_v1214 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1214" }
 fabric_api_v1215 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1215" }
 fabric_api_v1216 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1216" }
+fabric_api_v1218 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v1218" }
 slp_fabric = { group = "com.kotori316", name = "scalable-cats-force-fabric", version.ref = "slp_fabric" }
 scala3 = { group = "org.scala-lang", name = "scala3-library_3", version.ref = "scala3" }
 scala2 = { group = "org.scala-lang", name = "scala-library", version.ref = "scala2" }
