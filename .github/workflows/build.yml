@@ -19,7 +19,7 @@ jobs:
           21,    # Current Java LTS & minimum supported by Minecraft
         ]
         # and run on both Linux and Windows
-        os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "windows-latest"]') }}
+        os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "ubuntu-24.04-arm", "windows-latest"]') }}
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -41,7 +41,7 @@ jobs:
       - name: Build
         run: ./gradlew build publishToMavenLocal checkReleaseVersion
       - name: capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' && github.event_name == 'push' }} # Only upload artifacts built from latest java on one OS
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.java == '21' && github.event_name == 'push' }} # Only upload artifacts built from Java21 and Ubuntu x64
         uses: actions/upload-artifact@v4
         with:
           name: SLP-fabric-${{ github.run_number }}
