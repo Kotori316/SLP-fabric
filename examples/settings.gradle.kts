@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.8.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("1.0.0")
 }
 
 dependencyResolutionManagement {
@@ -25,3 +25,4 @@ include("1.21.4")
 include("1.21.5")
 include("1.21.6")
 include("1.21.8")
+include("1.21.10")
