@@ -69,6 +69,8 @@ tasks.withType(GenerateModuleMetadata).configureEach {
     enabled = false
 }
 
+tasks.remapJar.mustRunAfter(tasks.compileTestScala)
+
 final boolean RELEASE_DEBUG = (System.getenv("RELEASE_DEBUG") ?: "true").toBoolean()
 
 // configure the maven publication
