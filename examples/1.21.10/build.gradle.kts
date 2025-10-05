@@ -48,3 +48,7 @@ loom {
         }
     }
 }
+
+tasks.named("remapJar").configure {
+    mustRunAfter(tasks.named("compileTestScala"))
+}
