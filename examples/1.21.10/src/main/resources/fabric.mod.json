@@ -46,7 +46,7 @@
   "depends": {
     "fabricloader": ">=0.14.0",
     "fabric": ">=0.134.1+1.21.10",
-    "minecraft": ">=1.21.10-rc1",
+    "minecraft": ">=1.21.10-rc.1",
     "kotori_scala": ">=3.0.0"
   }
 }
