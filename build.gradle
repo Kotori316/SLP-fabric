@@ -89,8 +89,9 @@ publishing {
                     pomNode.dependencies."*".findAll() { Node node ->
                         def valueList = node.value() as NodeList
                         String artifactId = ((valueList.get(1) as Node).value() as NodeList).get(0)
-                        if (notRequiredArtifacts.stream().anyMatch { artifactId.contains(it) })
+                        if (notRequiredArtifacts.stream().anyMatch { artifactId.contains(it) }) {
                             node.parent().remove(node)
+                        }
                     }
                 }
             }
