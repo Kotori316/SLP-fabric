@@ -19,7 +19,7 @@ fabric_v1218 = "0.134.0+1.21.8"
 fabric_v12110 = "0.134.1+1.21.10"
 slp_fabric = "3.+"
 scala3 = "3.7.3"
-scala2 = "2.13.16"
+scala2 = "2.13.17"
 cats = "2.13.0-kotori"
 
 plugin_fabric_loom = "1.11.8"
