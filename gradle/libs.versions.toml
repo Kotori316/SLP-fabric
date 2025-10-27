@@ -22,7 +22,7 @@ scala3 = "3.7.3"
 scala2 = "2.13.17"
 cats = "2.13.0-kotori"
 
-plugin_fabric_loom = "1.11.8"
+plugin_fabric_loom = "1.12.1"
 plugin_publish_all = "1.+"
 plugin_cf = "3.4"
 plugin_idea_ext = "1.3"
