@@ -80,10 +80,6 @@ tasks.withType<GenerateModuleMetadata>().configureEach {
     enabled = false
 }
 
-tasks.named("remapJar") {
-    mustRunAfter(tasks.named("compileTestScala"))
-}
-
 val releaseDebug = (System.getenv("RELEASE_DEBUG") ?: "true").toBoolean()
 
 // configure the maven publication
