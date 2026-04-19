@@ -30,7 +30,7 @@ public final class ScalaLanguageAdapter implements LanguageAdapter {
             // Scala object
             // LOGGER.debug("({}) Detect object {}", mod, value);
             try {
-                Object obj = getScalaObject(mod, value);
+                Object obj = getScalaObject(value);
                 // LOGGER.debug("({}) Got object instance {}, interface={}", mod, obj, obj.getClass().getInterfaces());
                 return type.cast(obj);
             } catch (ReflectiveOperationException | ClassCastException e) {
@@ -40,9 +40,7 @@ public final class ScalaLanguageAdapter implements LanguageAdapter {
             // LOGGER.debug("({}) Detect class {}", mod, value);
             // Check object
             try {
-                Class<?> clazz = Class.forName(value + "$", false, ScalaLanguageAdapter.class.getClassLoader());
-                // LOGGER.debug("({}) Got object class {}", mod, clazz);
-                Object obj = getScalaObject(mod, value + "$");
+                Object obj = getScalaObject(value + "$");
                 // LOGGER.debug("({}) Got object instance {}, interface={}", mod, obj, obj.getClass().getInterfaces());
                 if (type.isInstance(obj)) {
                     // LOGGER.debug("({}) The object is implementing {}, return", mod, type);
@@ -66,8 +64,7 @@ public final class ScalaLanguageAdapter implements LanguageAdapter {
         }
     }
 
-    private static Object getScalaObject(ModContainer mod, String value) throws ReflectiveOperationException, ClassCastException {
-        // LOGGER.debug("({}) Try to get MODULE$ from {}", mod, value);
+    private static Object getScalaObject(String value) throws ReflectiveOperationException, ClassCastException {
         Class<?> clazz = Class.forName(value, true, ScalaLanguageAdapter.class.getClassLoader());
         return clazz.getField("MODULE$").get(null);
     }
