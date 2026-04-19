@@ -17,5 +17,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SLP-fabric-examples"
 include("26.1.2")
