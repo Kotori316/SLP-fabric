@@ -4,7 +4,6 @@
   "name": "Scalable Cat's Force Fabric",
   "description": "Scala library for fabric mods.",
   "version": "${version}",
-
   "authors": [
     "Kotori316"
   ],
@@ -13,10 +12,8 @@
     "sources": "https://github.com/Kotori316/SLP-fabric",
     "issues": "https://github.com/Kotori316/SLP-fabric/issues"
   },
-
   "license": "Apache License",
   "icon": "assets/scalable-cats-force-fabric/slp-image.png",
-
   "environment": "*",
   "languageAdapters": {
     "kotori_scala": "com.kotori316.slp.ScalaLanguageAdapter"

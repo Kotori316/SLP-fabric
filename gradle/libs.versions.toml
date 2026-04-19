@@ -58,7 +58,7 @@ scala = ["scala2", "scala3"]
 cats = ["cats_core", "cats_kernel", "cats_free"]
 
 [plugins]
-loom = { id = "fabric-loom", version.ref = "plugin_fabric_loom" }
+loom = { id = "net.fabricmc.fabric-loom", version.ref = "plugin_fabric_loom" }
 publish-all = { id = "me.modmuss50.mod-publish-plugin", version.ref = "plugin_publish_all" }
 cf = { id = "com.kotori316.plugin.cf", version.ref = "plugin_cf" }
 idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version.ref = "plugin_idea_ext" }
