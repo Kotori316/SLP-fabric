@@ -9,12 +9,12 @@ jobs:
       contents: write
       packages: write
       attestations: write
-    # See https://github.com/Kotori316/common-script/blob/main/.github/workflows/release-prod-gradle.yaml
-    uses: 'Kotori316/common-script/.github/workflows/release-prod-gradle.yaml@main'
+      artifact-metadata: write
+    # See https://github.com/Kotori316/common-script/blob/v2/.github/workflows/release-prod-gradle.yaml
+    uses: 'Kotori316/common-script/.github/workflows/release-prod-gradle.yaml@38c13b1d8c04fd93f778d65004dd90ac97bfbcad' # v2.0.2
     with:
       release_command: 'checkReleaseVersion build publishMods publish registerVersion --stacktrace --no-daemon'
       enable_signature_check: false
-      java_version: '21'
-      use_attestation: true
+      java_version: '25'
       use_gradle_cache: true
     secrets: inherit

@@ -16,7 +16,7 @@ jobs:
       matrix:
         # Use these Java versions
         java: [
-          21,    # Current Java LTS & minimum supported by Minecraft
+          25,    # Current Java LTS & minimum supported by Minecraft
         ]
         # and run on both Linux and Windows
         os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "ubuntu-24.04-arm", "windows-latest"]') }}
