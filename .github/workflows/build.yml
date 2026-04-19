@@ -40,6 +40,8 @@ jobs:
           add-job-summary: 'on-failure'
       - name: Build
         run: ./gradlew build publishToMavenLocal checkReleaseVersion
+      - name: Check build file
+        run: ./gradlew checkBinaryContent
       - name: capture build artifacts
         if: ${{ matrix.os == 'ubuntu-latest' && github.event_name == 'push' }} # Only upload artifacts built from Ubuntu x64
         uses: actions/upload-artifact@v7

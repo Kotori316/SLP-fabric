@@ -216,3 +216,40 @@ tasks.register("checkReleaseVersion", CallVersionCheckFunctionTask::class) {
     version = modVersion
     failIfExists = !releaseDebug
 }
+
+tasks.register("checkBinaryContent") {
+    group = "verification"
+    description = "Checks if the built JAR contains nested Scala JARs with expected content."
+    dependsOn(tasks.jar)
+
+    doLast {
+        val jarFile = tasks.jar.get().archiveFile.get().asFile
+        if (!jarFile.exists()) {
+            throw GradleException("Main JAR not found: ${jarFile.absolutePath}")
+        }
+
+        val scalaJars = project.zipTree(jarFile).matching {
+            include("META-INF/jars/scala*.jar")
+        }.files
+
+        if (scalaJars.isEmpty()) {
+            throw GradleException("Error: No scala*.jar found in ${jarFile.name} (checked META-INF/jars/)")
+        }
+
+        scalaJars.forEach { scalaJar ->
+            var count = 0
+            project.zipTree(scalaJar).visit {
+                val path = relativePath.pathString
+                if (!isDirectory && path.startsWith("scala/") && (path.endsWith(".class") || path.endsWith(".tasty"))) {
+                    count++
+                }
+            }
+
+            if (count < 5) {
+                throw GradleException("Error: 'scala' directory not found or has too few .class/.tasty files in ${scalaJar.name} (Found $count, expected at least 5)")
+            }
+            println("Verified ${scalaJar.name}: Found $count files in 'scala/' directory.")
+        }
+        println("All binary checks passed successfully!")
+    }
+}

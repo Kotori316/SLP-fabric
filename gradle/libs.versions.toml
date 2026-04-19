@@ -4,7 +4,7 @@ minecraft_v260102 = "26.1.2"
 fabric_loader = "0.19.2"
 fabric_v260102 = "0.146.0+26.1.2"
 slp_fabric = "3.+"
-scala3 = "3.8.3"
+scala3 = "3.7.4" # Not to update 3.8.x as the build process will empty the jar-jar content
 scala2 = "2.13.17"
 cats = "2.13.0-kotori"
 
