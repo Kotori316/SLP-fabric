@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "slp_example",
-  "version": "21.2.0",
+  "version": "26.1.2",
   "name": "SLP Example",
   "description": "SLP Example",
   "authors": [
@@ -44,9 +44,9 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.14.0",
-    "fabric": ">=0.128.0+1.21.6",
-    "minecraft": ">=1.21.6",
+    "fabricloader": "*",
+    "fabric-api": "*",
+    "minecraft": "26.1.2",
     "kotori_scala": ">=3.0.0"
   }
 }

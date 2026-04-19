@@ -9,6 +9,12 @@ base {
 version = "1.0"
 group = "com.kotori316"
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
 repositories {
     mavenLocal()
     maven {
@@ -24,15 +30,14 @@ repositories {
 }
 
 dependencies {
-    minecraft(libs.minecraft.v12110)
-    mappings(loom.officialMojangMappings())
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.api.v12110)
+    minecraft(libs.minecraft.v260102)
+    implementation(libs.fabric.loader)
+    implementation(libs.fabric.api.v260102)
 
     implementation(libs.bundles.scala)
     implementation(libs.bundles.cats)
 
-    modImplementation(variantOf(libs.slp.fabric) {
+    implementation(variantOf(libs.slp.fabric) {
         classifier("dev")
     })
 }
@@ -47,8 +52,4 @@ loom {
             property("fabric-api.gametest.report-file", "run/test-results/test/game_test.xml")
         }
     }
-}
-
-tasks.named("remapJar").configure {
-    mustRunAfter(tasks.named("compileTestScala"))
 }
