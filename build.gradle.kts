@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.loom)
     alias(libs.plugins.publish.all)
     alias(libs.plugins.cf)
+    alias(libs.plugins.shadow)
 }
 
 val archivesBaseName: String by project
@@ -40,15 +41,15 @@ dependencies {
     implementation(libs.fabric.loader)
 
     api(libs.scala3)
-    include(libs.scala3)
+    shadow(libs.scala3)
     api(libs.scala2)
-    include(libs.scala2)
+    shadow(libs.scala2)
     api(libs.cats.core)
-    include(libs.cats.core)
+    shadow(libs.cats.core)
     api(libs.cats.kernel)
-    include(libs.cats.kernel)
+    shadow(libs.cats.kernel)
     api(libs.cats.free)
-    include(libs.cats.free)
+    shadow(libs.cats.free)
 }
 
 tasks.processResources {
@@ -69,6 +70,16 @@ java {
 tasks.jar {
     from("LICENSE") {
         rename { "${it}_${archivesBaseName}" }
+    }
+}
+
+tasks.shadowJar {
+    dependencies {
+        include(dependency("org.scala-lang:scala-library"))
+        include(dependency("org.scala-lang:scala3-library_3"))
+        include(dependency("org.typelevel:cats-core_3"))
+        include(dependency("org.typelevel:cats-kernel_3"))
+        include(dependency("org.typelevel:cats-free_3"))
     }
 }
 
@@ -173,7 +184,10 @@ publishMods {
     changelog = createChangelog()
 
     curseforge {
-        accessToken = provider { (project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSE_TOKEN") ?: "") as String }
+        accessToken = provider {
+            (project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSE_TOKEN")
+            ?: "") as String
+        }
         projectId = "320926"
         minecraftVersionRange {
             start = mcStartVersion
@@ -181,7 +195,8 @@ publishMods {
         }
     }
     modrinth {
-        accessToken = provider { (project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String }
+        accessToken =
+            provider { (project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String }
         projectId = "zr0QMQMo"
         minecraftVersionRange {
             start = mcStartVersion
