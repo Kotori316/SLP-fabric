@@ -234,36 +234,68 @@ tasks.register("checkReleaseVersion", CallVersionCheckFunctionTask::class) {
 
 tasks.register("checkBinaryContent") {
     group = "verification"
-    description = "Checks if the built JAR contains nested Scala JARs with expected content."
+    description = "Checks if the built JAR contains Scala classes (Shadow fat JAR) or nested Scala JARs (JarInJar)."
     dependsOn(tasks.jar)
+    tasks.findByName("shadowJar")?.let { dependsOn(it) }
 
     doLast {
-        val jarFile = tasks.jar.get().archiveFile.get().asFile
-        if (!jarFile.exists()) {
-            throw GradleException("Main JAR not found: ${jarFile.absolutePath}")
-        }
+        var anyCheckPassed = false
 
-        val scalaJars = project.zipTree(jarFile).matching {
-            include("META-INF/jars/scala*.jar")
-        }.files
-
-        if (scalaJars.isEmpty()) {
-            throw GradleException("Error: No scala*.jar found in ${jarFile.name} (checked META-INF/jars/)")
-        }
-
-        scalaJars.forEach { scalaJar ->
+        // Shadow fat JAR: scala classes are embedded directly at root
+        val shadowJarFile = (tasks.findByName("shadowJar") as? AbstractArchiveTask)
+            ?.archiveFile?.get()?.asFile
+        if (shadowJarFile == null) {
+            println("Shadow JAR: shadowJar task not found, skipping.")
+        } else if (!shadowJarFile.exists()) {
+            println("Shadow JAR: ${shadowJarFile.name} does not exist, skipping.")
+        } else {
             var count = 0
-            project.zipTree(scalaJar).visit {
+            project.zipTree(shadowJarFile).visit {
                 val path = relativePath.pathString
                 if (!isDirectory && path.startsWith("scala/") && (path.endsWith(".class") || path.endsWith(".tasty"))) {
                     count++
                 }
             }
-
-            if (count < 5) {
-                throw GradleException("Error: 'scala' directory not found or has too few .class/.tasty files in ${scalaJar.name} (Found $count, expected at least 5)")
+            if (count in 1..4) {
+                throw GradleException("Shadow JAR ${shadowJarFile.name} has too few scala files: $count (expected at least 5)")
             }
-            println("Verified ${scalaJar.name}: Found $count files in 'scala/' directory.")
+            if (count >= 5) {
+                println("Verified ${shadowJarFile.name} (Shadow): Found $count scala files.")
+                anyCheckPassed = true
+            } else {
+                println("Shadow JAR ${shadowJarFile.name}: no scala/ classes found, skipping.")
+            }
+        }
+
+        // JarInJar: nested scala*.jar files under META-INF/jars/
+        val jarFile = tasks.jar.get().archiveFile.get().asFile
+        if (jarFile.exists()) {
+            val scalaJars = project.zipTree(jarFile).matching {
+                include("META-INF/jars/scala*.jar")
+            }.files
+
+            if (scalaJars.isEmpty()) {
+                println("JarInJar: no scala*.jar found in META-INF/jars/ of ${jarFile.name}, skipping.")
+            } else {
+                scalaJars.forEach { scalaJar ->
+                    var count = 0
+                    project.zipTree(scalaJar).visit {
+                        val path = relativePath.pathString
+                        if (!isDirectory && path.startsWith("scala/") && (path.endsWith(".class") || path.endsWith(".tasty"))) {
+                            count++
+                        }
+                    }
+                    if (count < 5) {
+                        throw GradleException("Error: 'scala' directory not found or has too few .class/.tasty files in ${scalaJar.name} (Found $count, expected at least 5)")
+                    }
+                    println("Verified ${scalaJar.name} (JarInJar): Found $count files in 'scala/' directory.")
+                }
+                anyCheckPassed = true
+            }
+        }
+
+        if (!anyCheckPassed) {
+            throw GradleException("No Scala content found: Shadow JAR has no scala/ classes and no scala*.jar in META-INF/jars/")
         }
         println("All binary checks passed successfully!")
     }
