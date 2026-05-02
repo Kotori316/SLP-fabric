@@ -177,8 +177,9 @@ ${urlOfGitHub}/tree/${branch}
 publishMods {
     dryRun = releaseDebug
     type = ReleaseType.STABLE
-    file = tasks.jar.flatMap { it.archiveFile }
+    file = tasks.shadowJar.flatMap { it.archiveFile }
     additionalFiles.from(
+        tasks.jar.flatMap { it.archiveFile },
         tasks.named<Jar>("sourcesJar").flatMap { it.archiveFile },
     )
     modLoaders = listOf("fabric")
