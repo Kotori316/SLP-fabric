@@ -71,6 +71,7 @@ tasks.jar {
     from("LICENSE") {
         rename { "${it}_${archivesBaseName}" }
     }
+    archiveClassifier = "dev"
 }
 
 tasks.shadowJar {
@@ -81,6 +82,7 @@ tasks.shadowJar {
         include(dependency("org.typelevel:cats-kernel_3"))
         include(dependency("org.typelevel:cats-free_3"))
     }
+    archiveClassifier = ""
 }
 
 tasks.named<Wrapper>("wrapper") {

@@ -9,15 +9,15 @@ Add it as a dependency:
 
 ```groovy
 dependencies {
-    implementation(group: 'org.scala-lang', name: 'scala-library', version: "2.13.15")
+    implementation(group: 'org.scala-lang', name: 'scala-library', version: "2.13.18")
     // (Optional) If you need scala3
-    implementation(group: 'org.scala-lang', name: 'scala3-library_3', version: "3.5.0")
+    implementation(group: 'org.scala-lang', name: 'scala3-library_3', version: "3.8.3")
     // (Optional) If you need cats. You also need to add repositories as below.
     implementation(group: "org.typelevel", name: "cats-core_3_", version: project.catsVersion)
     implementation(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion)
     
     // If you write entrypoint in Scala. If entrypoint is Java, you can use default(fabric) entrypoint loader.
-    modImplementation("com.kotori316:scalable-cats-force-fabric:3.1.3:dev")
+    implementation("com.kotori316:scalable-cats-force-fabric:4.0.0:dev")
 }
 
 // If you need cats.
