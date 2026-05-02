@@ -53,3 +53,7 @@ loom {
         }
     }
 }
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
