@@ -15,6 +15,10 @@ java {
     }
 }
 
+scala {
+    scalaVersion = libs.versions.scala.get()
+}
+
 repositories {
     mavenLocal()
     maven {
