@@ -65,11 +65,29 @@ java {
     }
 }
 
+tasks.named<Jar>("sourcesJar") {
+    manifest {
+        attributes("Implementation-Version" to project.version)
+    }
+}
+
 tasks.jar {
     from("LICENSE") {
         rename { "${it}_${archivesBaseName}" }
     }
     archiveClassifier = ""
+}
+
+val devJar = tasks.register<Jar>("devJar") {
+    description = "Generate a development jar without JarJar embedding"
+    archiveClassifier = "dev"
+    from(sourceSets.main.get().output)
+    from("LICENSE") {
+        rename { "${it}_${archivesBaseName}" }
+    }
+    manifest {
+        attributes("Implementation-Version" to project.version)
+    }
 }
 
 /*tasks.shadowJar {
@@ -98,6 +116,7 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             from(components["java"])
+            artifact(devJar)
             artifactId = archivesBaseName
             pom {
                 name = archivesBaseName
