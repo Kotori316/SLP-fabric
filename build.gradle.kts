@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.loom)
     alias(libs.plugins.publish.all)
     alias(libs.plugins.cf)
-    alias(libs.plugins.shadow)
+    // alias(libs.plugins.shadow)
 }
 
 val archivesBaseName: String by project
@@ -40,16 +40,14 @@ dependencies {
     minecraft(libs.minecraft.main)
     implementation(libs.fabric.loader)
 
-    api(libs.scala3)
-    shadow(libs.scala3)
-    api(libs.scala2)
-    shadow(libs.scala2)
+    api(libs.scala)
+    include(libs.scala)
     api(libs.cats.core)
-    shadow(libs.cats.core)
+    include(libs.cats.core)
     api(libs.cats.kernel)
-    shadow(libs.cats.kernel)
+    include(libs.cats.kernel)
     api(libs.cats.free)
-    shadow(libs.cats.free)
+    include(libs.cats.free)
 }
 
 tasks.processResources {
@@ -71,10 +69,10 @@ tasks.jar {
     from("LICENSE") {
         rename { "${it}_${archivesBaseName}" }
     }
-    archiveClassifier = "dev"
+    archiveClassifier = ""
 }
 
-tasks.shadowJar {
+/*tasks.shadowJar {
     dependencies {
         include(dependency("org.scala-lang:scala-library"))
         include(dependency("org.scala-lang:scala3-library_3"))
@@ -82,8 +80,8 @@ tasks.shadowJar {
         include(dependency("org.typelevel:cats-kernel_3"))
         include(dependency("org.typelevel:cats-free_3"))
     }
-    archiveClassifier = ""
-}
+    archiveClassifier = "shadow"
+}*/
 
 tasks.named<Wrapper>("wrapper") {
     gradleVersion = "9.5.0"
@@ -161,8 +159,7 @@ Provides scala language adapter to Fabric.
 
 ### Build dependencies:
 
-- Scala ${libs.versions.scala2.get()}
-- Scala3 ${libs.versions.scala3.get()}
+- Scala ${libs.versions.scala.get()}
 - Cats Kernel ${libs.versions.cats.get()}
 - Cats Core ${libs.versions.cats.get()}
 - Cats Free ${libs.versions.cats.get()}
@@ -177,9 +174,8 @@ ${urlOfGitHub}/tree/${branch}
 publishMods {
     dryRun = releaseDebug
     type = ReleaseType.STABLE
-    file = tasks.shadowJar.flatMap { it.archiveFile }
+    file = tasks.jar.flatMap { it.archiveFile }
     additionalFiles.from(
-        tasks.jar.flatMap { it.archiveFile },
         tasks.named<Jar>("sourcesJar").flatMap { it.archiveFile },
     )
     modLoaders = listOf("fabric")

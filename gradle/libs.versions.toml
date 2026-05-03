@@ -4,8 +4,7 @@ minecraft_v260102 = "26.1.2"
 fabric_loader = "0.19.2"
 fabric_v260102 = "0.147.0+26.1.2"
 slp_fabric = "3.+"
-scala3 = "3.8.3"
-scala2 = "2.13.18"
+scala = "3.8.3"
 cats = "2.13.0-kotori"
 
 plugin_fabric_loom = "1.16.1"
@@ -20,14 +19,13 @@ minecraft_v260102 = { group = "com.mojang", name = "minecraft", version.ref = "m
 fabric_loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric_loader" }
 fabric_api_v260102 = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric_v260102" }
 slp_fabric = { group = "com.kotori316", name = "scalable-cats-force-fabric", version.ref = "slp_fabric" }
-scala3 = { group = "org.scala-lang", name = "scala3-library_3", version.ref = "scala3" }
-scala2 = { group = "org.scala-lang", name = "scala-library", version.ref = "scala2" }
+scala = { group = "org.scala-lang", name = "scala-library", version.ref = "scala" }
 cats_core = { group = "org.typelevel", name = "cats-core_3", version.ref = "cats" }
 cats_kernel = { group = "org.typelevel", name = "cats-kernel_3", version.ref = "cats" }
 cats_free = { group = "org.typelevel", name = "cats-free_3", version.ref = "cats" }
 
 [bundles]
-scala = ["scala2", "scala3"]
+scala = ["scala"]
 cats = ["cats_core", "cats_kernel", "cats_free"]
 
 [plugins]
