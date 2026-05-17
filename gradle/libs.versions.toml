@@ -7,7 +7,7 @@ slp_fabric = "4.+"
 scala = "3.8.3"
 cats = "2.13.0-kotori"
 
-plugin_fabric_loom = "1.16.1"
+plugin_fabric_loom = "1.16.2"
 plugin_publish_all = "1.+"
 plugin_cf = "4.0"
 plugin_idea_ext = "1.4.1"
