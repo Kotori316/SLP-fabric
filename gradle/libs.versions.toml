@@ -2,7 +2,7 @@
 minecraft_main = "26.1.2"
 minecraft_v260102 = "26.1.2"
 fabric_loader = "0.19.2"
-fabric_v260102 = "0.149.0+26.1.2"
+fabric_v260102 = "0.149.1+26.1.2"
 slp_fabric = "4.+"
 scala = "3.8.3"
 cats = "2.13.0-kotori"
