@@ -8,7 +8,7 @@ scala = "3.8.3"
 cats = "2.13.0-kotori"
 
 plugin_fabric_loom = "1.16.3"
-plugin_publish_all = "1.+"
+plugin_publish_all = "2.+"
 plugin_cf = "4.0"
 plugin_idea_ext = "1.4.1"
 plugin_shadow = "9.4.2"
