@@ -4,7 +4,7 @@ minecraft_v260102 = "26.1.2"
 fabric_loader = "0.19.3"
 fabric_v260102 = "0.150.0+26.1.2"
 slp_fabric = "4.+"
-scala = "3.8.3"
+scala = "3.8.4"
 cats = "2.13.0-kotori"
 
 plugin_fabric_loom = "1.16.3"
