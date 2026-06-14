@@ -153,10 +153,14 @@ publishing {
                 }
             }
         }
-        if (System.getenv("CI") == null) {
+        if (u != "" && p != "") {
             maven {
                 name = "MavenTestGCP"
-                url = uri("gcs://kotori316-maven-test-storage/maven/")
+                url = uri("https://maven2.kotori316.com/test/maven")
+                credentials {
+                    username = u
+                    password = p
+                }
             }
         }
     }
