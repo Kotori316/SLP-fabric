@@ -9,28 +9,24 @@ Add it as a dependency:
 
 ```groovy
 dependencies {
-    implementation(group: 'org.scala-lang', name: 'scala-library', version: "2.13.18")
-    // (Optional) If you need scala3
-    implementation(group: 'org.scala-lang', name: 'scala3-library_3', version: "3.8.3")
-    // (Optional) If you need cats. You also need to add repositories as below.
-    implementation(group: "org.typelevel", name: "cats-core_3_", version: project.catsVersion)
-    implementation(group: "org.typelevel", name: "cats-kernel_3", version: project.catsVersion)
-    
-    // If you write entrypoint in Scala. If entrypoint is Java, you can use default(fabric) entrypoint loader.
-    implementation("com.kotori316:scalable-cats-force-fabric:4.0.0:dev")
+    // Scala (no need to add Scala 2 dependency since 3.8.3)
+    implementation('org.scala-lang:scala3-library_3:3.8.4')
+    // (Optional) If you need cats — available from Maven Central.
+    implementation('org.typelevel:cats-core_3:2.13.0')
+    implementation('org.typelevel:cats-kernel_3:2.13.0')
+
+    // If you write entrypoint in Scala. If entrypoint is Java, you can use the default (fabric) entrypoint loader.
+    implementation("com.kotori316:scalable-cats-force-fabric:5.0.0:dev")
 }
 
-// If you need cats.
 repositories {
+    mavenCentral()
     maven {
         name = "Kotori316"
         // See https://maven.kotori316.com for versions
         url = uri("https://maven.kotori316.com")
         content {
-            includeGroup("com.kotori316")
-            // (Optional)
-            includeVersion("org.typelevel", "cats-core_3", project.catsVersion)
-            includeVersion("org.typelevel", "cats-kernel_3", project.catsVersion)
+            includeModule("com.kotori316", "scalable-cats-force-fabric")
         }
     }
 }
@@ -57,7 +53,27 @@ Add a dependency entry to your `fabric.mod.json` file:
 ```json
 {
   "requires": {
-    "kotori_scala": ">=1.0.0"
+    "kotori_scala": ">=5.0.0"
   }
 }
 ```
+
+## API
+
+* [Scala](https://www.scala-lang.org/) — [GitHub](https://github.com/scala/scala) — licensed under the
+  [Apache License, Version 2.0](https://www.scala-lang.org/license/).
+* [Cats](https://typelevel.org/cats/) — [GitHub](https://github.com/typelevel/cats) — licensed under the
+  [License](https://github.com/typelevel/cats/blob/master/COPYING).
+  * SLP bundles the official Cats jars from Maven Central as-is. All packages, including the
+    Java-reserved-word packages such as `cats.kernel.instances.int`, are available at runtime.
+
+## Limitations
+
+1. Avoid use of `Mod.EventBusSubscriber` in Java code. This will cause an exception in the `compileScala` task.
+
+  * Use in Scala code will not throw an exception.
+
+2. If you get the compile error "ambiguous reference to overloaded definition", specify the return type.
+
+  * For example, `val offsetPos = pos.relative(direction)` can cause this error when `relative` is declared
+    in both `BlockPos` and `Vec3i`. Specify the return type: `val offsetPos: BlockPos = pos.relative(direction)`
