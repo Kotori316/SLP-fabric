@@ -49,11 +49,11 @@ dependencies {
 loom {
     runs {
         create("gameTest") {
-            name = "GameTest"
+            displayName = "GameTest"
             server()
-            vmArg("-ea")
-            property("fabric-api.gametest")
-            property("fabric-api.gametest.report-file", "run/test-results/test/game_test.xml")
+            jvmArguments.add("-ea")
+            systemProperties.put("fabric-api.gametest", "")
+            systemProperties.put("fabric-api.gametest.report-file", "run/test-results/test/game_test.xml")
         }
     }
 }
