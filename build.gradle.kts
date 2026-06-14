@@ -25,15 +25,7 @@ version = modVersion
 group = mavenGroup
 
 repositories {
-    maven {
-        name = "Main"
-        url = uri("https://maven.kotori316.com")
-        content {
-            includeVersion("org.typelevel", "cats-core_3", libs.versions.cats.get())
-            includeVersion("org.typelevel", "cats-kernel_3", libs.versions.cats.get())
-            includeVersion("org.typelevel", "cats-free_3", libs.versions.cats.get())
-        }
-    }
+    mavenCentral()
 }
 
 dependencies {

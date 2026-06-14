@@ -5,7 +5,7 @@ fabric_loader = "0.19.3"
 fabric_v260102 = "0.151.0+26.1.2"
 slp_fabric = "4.+"
 scala = "3.8.4"
-cats = "2.13.0-kotori"
+cats = "2.13.0"
 
 plugin_fabric_loom = "1.17.8"
 plugin_publish_all = "2.+"
