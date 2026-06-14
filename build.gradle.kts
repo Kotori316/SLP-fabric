@@ -205,8 +205,10 @@ publishMods {
         projectId = "320926"
         minecraftVersionRange {
             start = mcStartVersion
-            end = "latest"
+            end = "latestRelease"
         }
+        client = true
+        server = true
     }
     modrinth {
         accessToken =
@@ -214,7 +216,7 @@ publishMods {
         projectId = "zr0QMQMo"
         minecraftVersionRange {
             start = mcStartVersion
-            end = "latest"
+            end = "latestRelease"
             includeSnapshots = false
         }
     }
