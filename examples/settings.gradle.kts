@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 }
 
 include("26.1.2")
+include("26.2.0")
