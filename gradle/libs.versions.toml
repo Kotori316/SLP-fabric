@@ -1,7 +1,7 @@
 [versions]
 minecraft_main = "26.1.2"
 minecraft_v260102 = "26.1.2"
-minecraft_v260200 = "26.2-rc-2"
+minecraft_v260200 = "26.2"
 fabric_loader = "0.19.3"
 fabric_v260102 = "0.152.1+26.1.2"
 fabric_v260200 = "0.152.2+26.2"
