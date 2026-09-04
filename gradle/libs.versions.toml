@@ -6,7 +6,7 @@ fabric_loader = "0.19.5"
 fabric_v260102 = "0.155.2+26.1.2"
 fabric_v260200 = "0.159.0+26.2"
 slp_fabric = "5.+"
-scala = "3.8.4"
+scala = "3.9.0"
 cats = "2.13.0"
 
 plugin_fabric_loom = "1.17.20"
