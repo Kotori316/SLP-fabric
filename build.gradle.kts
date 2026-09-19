@@ -19,7 +19,7 @@ val branch: String = project.property("branch") as String
 val mcStartVersion: String = project.property("mcStartVersion") as String
 
 base {
-    archivesName.set(archivesBaseName)
+    archivesName = archivesBaseName
 }
 version = modVersion
 group = mavenGroup
@@ -180,7 +180,7 @@ Provides scala language adapter to Fabric.
 - Cats Free ${libs.versions.cats.get()}
 - Fabric Loader ${libs.versions.fabric.loader.get()}
 
-### Repositry
+### Repository
 
 ${urlOfGitHub}/tree/${branch}
 """.trimIndent()
@@ -199,8 +199,10 @@ publishMods {
 
     curseforge {
         accessToken = provider {
-            (project.findProperty("curseforge_additional-enchanted-miner_key") ?: System.getenv("CURSE_TOKEN")
-            ?: "") as String
+            val token = project.findProperty("curseforge_additional-enchanted-miner_key")
+                ?: System.getenv("CURSE_TOKEN")
+                ?: ""
+            token as String
         }
         projectId = "320926"
         minecraftVersionRange {
@@ -211,8 +213,12 @@ publishMods {
         server = true
     }
     modrinth {
-        accessToken =
-            provider { (project.findProperty("modrinthToken") ?: System.getenv("MODRINTH_TOKEN") ?: "") as String }
+        accessToken = provider {
+            val token = project.findProperty("modrinthToken")
+                ?: System.getenv("MODRINTH_TOKEN")
+                ?: ""
+            token as String
+        }
         projectId = "zr0QMQMo"
         minecraftVersionRange {
             start = mcStartVersion
@@ -221,7 +227,12 @@ publishMods {
         }
     }
     github {
-        accessToken = provider { (project.findProperty("githubToken") ?: System.getenv("REPO_TOKEN") ?: "") as String }
+        accessToken = provider {
+            val token = project.findProperty("githubToken")
+                ?: System.getenv("REPO_TOKEN")
+                ?: ""
+            token as String
+        }
         repository = "Kotori316/SLP-fabric"
         commitish = branch
         tagName = "v${project.version}"
@@ -238,6 +249,7 @@ tasks.register("registerVersion", CallVersionFunctionTask::class) {
     changelog = createChangelog()
     homepage = "https://modrinth.com/mod/scalable-cats-force"
     isDryRun = releaseDebug
+    description = "Register current version"
 }
 
 tasks.register("checkReleaseVersion", CallVersionCheckFunctionTask::class) {
@@ -246,6 +258,7 @@ tasks.register("checkReleaseVersion", CallVersionCheckFunctionTask::class) {
     modName = "ScalableCatsForce-Fabric"
     version = modVersion
     failIfExists = !releaseDebug
+    description = "Check release version"
 }
 
 tasks.register("checkBinaryContent") {
