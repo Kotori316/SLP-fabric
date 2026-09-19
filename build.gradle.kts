@@ -11,12 +11,12 @@ plugins {
     // alias(libs.plugins.shadow)
 }
 
-val archivesBaseName: String by project
-val modVersion: String by project
-val mavenGroup: String by project
-val urlOfGitHub: String by project
-val branch: String by project
-val mcStartVersion: String by project
+val archivesBaseName: String = project.property("archivesBaseName") as String
+val modVersion: String = project.property("modVersion") as String
+val mavenGroup: String = project.property("mavenGroup") as String
+val urlOfGitHub: String = project.property("urlOfGitHub") as String
+val branch: String = project.property("branch") as String
+val mcStartVersion: String = project.property("mcStartVersion") as String
 
 base {
     archivesName.set(archivesBaseName)
