@@ -11,7 +11,7 @@ slp_fabric = "5.+"
 scala = "3.9.0"
 cats = "2.13.0"
 
-plugin_fabric_loom = "1.18.2"
+plugin_fabric_loom = "1.18.3"
 plugin_publish_all = "2.2.1"
 plugin_cf = "4.0"
 plugin_idea_ext = "1.4.1"
