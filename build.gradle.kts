@@ -94,7 +94,7 @@ val devJar = tasks.register<Jar>("devJar") {
 }*/
 
 tasks.named<Wrapper>("wrapper") {
-    gradleVersion = "9.9.0"
+    gradleVersion = "9.9.1"
 }
 
 tasks.withType<GenerateModuleMetadata>().configureEach {
